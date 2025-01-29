@@ -1,13 +1,26 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-const AllItems = () => {
+const AllItems = ({data}) => {
     return (
         <View>
             <View style={styles.headingConatiner}>
-                <Text>Items</Text>
-                <Text>Quantity</Text>
+                <Text style={styles.headingText}>Items</Text>
+                <Text style={styles.headingText}>Quantity</Text>
             </View>
+
+            <FlatList
+                data={data}
+                keyExtractor={(item)=>item.id}
+                renderItem={({item})=>(
+                    <View style={[styles.itemContainer , {backgroundColor: item.stock <20 ? "#FFCCCC" : "#D7F6BFFF"}]}>
+                        <Text style={styles.itemText}>{item.name}</Text>
+                        <Text style={styles.itemText}>{item.stock}</Text>
+                    </View>
+                )}
+
+                contentContainerStyle={{gap:10}}
+            />
         </View>
     );
 };
@@ -19,5 +32,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent:'space-between',
         paddingHorizontal:15,
-    }
+        paddingVertical:10,
+    },
+    headingText:{
+        fontSize: 16,
+        fontWeight: '500',
+    },
+    itemContainer:{
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        paddingHorizontal:15,
+        paddingVertical:10,
+        borderRadius:7,
+    },
+    itemText:{
+        fontSize: 15,
+        fontWeight: '500',
+    },
 });
